@@ -29,6 +29,7 @@ public class UploadController {
         return Flux.from(data)
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMap((StreamingFileUpload upload) -> {
+                    LOG.info("File Name: {}", upload.getFilename());
                     return Flux.from(upload)
                             .map((pd) -> {
                                 try {
