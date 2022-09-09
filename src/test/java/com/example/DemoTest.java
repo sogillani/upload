@@ -15,7 +15,9 @@ import jakarta.inject.Inject;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,11 +38,9 @@ class DemoTest {
 
     @Test
     void testUpload() {
-        List<File> files = Utils.getContracts(10);
-
         var builder = MultipartBody.builder();
-        for (File name : files) {
-            builder.addPart("data", name);
+        for(int i=0; i < 100; i++){
+            builder.addPart("data", readFile("Upload.pdf"));
         }
         MultipartBody multipartBody = builder.build();
 
@@ -54,4 +54,15 @@ class DemoTest {
         assertEquals(200, response.getStatus().getCode());
     }
 
+    public static File readFile(String path) {
+        return Optional.ofNullable(DemoTest.class.getResource(path.startsWith(File.separator) ? path : File.separator + path))
+                .map(url -> {
+                    try {
+                        return new File(url.toURI());
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .orElseThrow(IllegalArgumentException::new);
+    }
 }
