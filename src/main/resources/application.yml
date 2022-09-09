@@ -1,0 +1,15 @@
+micronaut:
+  application:
+    name: demo
+  server:
+    max-request-size: 500gb
+    multipart:
+      max-file-size: 500mb
+      mixed: true
+      threshold: 10mb
+      location: /app/tmp
+
+netty:
+  default:
+    allocator:
+      max-order: 3
