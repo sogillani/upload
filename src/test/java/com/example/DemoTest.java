@@ -38,7 +38,7 @@ class DemoTest {
     @Test
     void testUpload() {
         var builder = MultipartBody.builder();
-        for(int i=0; i < 100; i++) {
+        for(int i=0; i < 1000; i++) {
             builder.addPart("data", readFile("Upload.pdf"));
         }
         MultipartBody multipartBody = builder.build();
