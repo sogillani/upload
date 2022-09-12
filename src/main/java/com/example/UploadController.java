@@ -33,8 +33,9 @@ public class UploadController {
                     return Flux.from(upload)
                             .map((pd) -> {
                                 try {
-                                    LOG.info("Part Data: {}", pd.getBytes().length);
-                                    return pd.getBytes();
+                                    byte [] bytes = pd.getBytes();
+                                    LOG.info("Part Data: {}", bytes.length);
+                                    return bytes;
                                 } catch (IOException e) {
                                     throw Exceptions.propagate(e);
                                 }
