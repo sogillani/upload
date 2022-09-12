@@ -46,4 +46,23 @@ public class UploadController {
                     return HttpResponse.ok(adder.longValue());
                 });
     }
+
+    /*
+    @Post(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA)
+    @SingleResult
+    public Publisher<HttpResponse> receiveMultiplePublishers(Publisher<Publisher<byte[]>> data) {
+        return Flux.from(data)
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMap((Publisher<byte[]> upload) -> {
+                    LOG.info("Counter: {}", counter++);
+                    return Flux.from(upload).map((bytes) -> {
+                        LOG.info("Byte size: {}", bytes.length);
+                        return bytes;
+                    });
+                }).collect(LongAdder::new, (adder, bytes) -> adder.add((long) bytes.length))
+                .map((adder) -> {
+                    return HttpResponse.ok(adder.longValue());
+                });
+    }
+    */
 }

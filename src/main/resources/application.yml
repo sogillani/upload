@@ -1,13 +1,17 @@
 micronaut:
   application:
     name: demo
+  http:
+    client:
+      read-timeout: 5m
   server:
     max-request-size: 500gb
     multipart:
       max-file-size: 500mb
       mixed: true
+      #disk: true
       threshold: 10mb
-      location: /app/tmp
+      location: /Users/omer.gillani/tmp
 
 netty:
   default:
