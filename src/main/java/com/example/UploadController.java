@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
 
 @Singleton
@@ -22,7 +23,9 @@ import java.util.concurrent.atomic.LongAdder;
 public class UploadController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
+    AtomicLong fileCounter = new AtomicLong(0);
 
+    /*
     @Post(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA)
     @SingleResult
     public Publisher<HttpResponse> upload(Publisher<StreamingFileUpload> data) {
@@ -45,16 +48,15 @@ public class UploadController {
                 .map((adder) -> {
                     return HttpResponse.ok(adder.longValue());
                 });
-    }
+    }*/
 
-    /*
     @Post(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA)
     @SingleResult
     public Publisher<HttpResponse> receiveMultiplePublishers(Publisher<Publisher<byte[]>> data) {
         return Flux.from(data)
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMap((Publisher<byte[]> upload) -> {
-                    LOG.info("Counter: {}", counter++);
+                    LOG.info("File Count: {}", fileCounter.incrementAndGet());
                     return Flux.from(upload).map((bytes) -> {
                         LOG.info("Byte size: {}", bytes.length);
                         return bytes;
@@ -64,5 +66,4 @@ public class UploadController {
                     return HttpResponse.ok(adder.longValue());
                 });
     }
-    */
 }
